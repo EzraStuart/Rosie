@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You 💌</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ffeef8 0%, #ffffe0 50%, #ffd6e8 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        /* Password Screen */
+        .password-screen {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .password-screen h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3em;
+            color: #ff69b4;
+            margin-bottom: 15px;
+        }
+
+        .password-screen p {
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 0.95em;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #ffe0f0;
+            border-radius: 15px;
+            font-size: 1em;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .password-input:focus {
+            outline: none;
+            border-color: #ff69b4;
+            box-shadow: 0 0 0 3px rgba(255, 105, 180, 0.1);
+        }
+
+        .unlock-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .unlock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .error {
+            color: #ff1493;
+            font-size: 0.9em;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* Letter Content */
+        .letter-content {
+            display: none;
+            animation: fadeIn 1s ease;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .letter-header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            color: #ff69b4;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.2);
+        }
+
+        .letter-header .subtitle {
+            color: #ff69b4;
+            font-size: 1.1em;
+            opacity: 0.8;
+        }
+
+        .letter-body {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .letter-text {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .letter-text p {
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            text-align: right;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.8em;
+            color: #ff69b4;
+            margin-top: 30px;
+        }
+
+        /* Photo Gallery */
+        .photo-gallery {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .gallery-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2em;
+            color: #ff69b4;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .photo-container {
+            position: relative;
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+            max-height: 600px;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: auto;
+            max-height: 600px;
+            object-fit: contain;
+            display: none;
+        }
+
+        .photo-container img.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .photo-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .photo-counter {
+            text-align: center;
+            color: #999;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: #ff69b4;
+            font-size: 0.9em;
+            opacity: 0.7;
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .password-screen, .letter-body, .photo-gallery {
+                padding: 30px 25px;
+            }
+
+            .letter-header h1 {
+                font-size: 2.5em;
+            }
+
+            .password-screen h1 {
+                font-size: 2.2em;
+            }
+
+            .letter-text {
+                font-size: 1em;
+            }
+
+            .photo-container {
+                height: 300px;
+            }
+
+            .nav-btn {
+                padding: 10px 20px;
+                font-size: 0.9em;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Password Screen -->
+        <div class="password-screen" id="passwordScreen">
+            <h1>For you, Rosie</h1>
+            <p>Enter Password below...</p>
+            <input type="password" class="password-input" id="passwordInput" placeholder="In which month did we first meet? ">
+            <button class="unlock-btn" onclick="checkPassword()">Unlock</button>
+            <p class="error" id="errorMsg">Wrong password, try again 💕</p>
+        </div>
+
+        <!-- Letter Content -->
+        <div class="letter-content" id="letterContent">
+            <div class="letter-header">
+                <h1>To Rosie </h1>
+                <p class="subtitle">My thoughts</p>
+            </div>
+
+            <div class="letter-body">
+                <div class="letter-text">
+                    <div class="signature" style="text-align: left;">Dearest Rosie,</div>
+                    
+                    <p>
+                        You are by far the best thing that has ever happened to me, and it hurts to think that I have made you feel underappreciated and uncared for.
+                    </p>
+                    
+                    <p>
+                        I keep making the same mistakes, and I know that I am wearing your patience thin. I understand that you need more from me as times change, and that these last few months I have not been the easiest to be with.
+                    </p>
+                    
+                    <p>
+                        I have learned so much this past year, yet I realise I still have a lot more. Please give me the chance to show you that I can be fast learner, and how much your feelings do mean to me.
+                    </p>
+                    
+                    <p>
+                        I only want to live with you by my side,
+                    </p>
+                    
+                </div>
+                <div class="signature">My heart Forever</div>
+            </div>
+
+            <div class="photo-gallery">
+                <h2 class="gallery-title">Some (but not all ;)) of our favourite memories</h2>
+                <div class="photo-container">
+                    <img src="images/image1.JPG" alt="Memory 1" class="active">
+                    <img src="images/image2.JPG" alt="Memory 2">
+                    <img src="images/image3.png" alt="Memory 3">
+                    <img src="images/image4.jpg" alt="Memory 4">
+                    <img src="images/image5.jpg" alt="Memory 5">
+                    <img src="images/image6.jpg" alt="Memory 6">
+                    <img src="images/image7.jpg" alt="Memory 7">
+                    <img src="images/image8.jpg" alt="Memory 8">
+                    <img src="images/image9.jpg" alt="Memory 9">
+                    <img src="images/image10.jpg" alt="Memory 10">
+                    <img src="images/image11.jpg" alt="Memory 11">
+                    <img src="images/image12.jpg" alt="Memory 12">
+                    <img src="images/image13.jpg" alt="Memory 13">
+                    <img src="images/image14.jpg" alt="Memory 14">
+                    <img src="images/image15.jpg" alt="Memory 15">
+                    <img src="images/image16.jpg" alt="Memory 16">
+                    <img src="images/image17.jpg" alt="Memory 17">
+                    <img src="images/image18.jpg" alt="Memory 18">
+                    <img src="images/image19.jpg" alt="Memory 19">
+                    <img src="images/image20.jpg" alt="Memory 20">
+                </div>
+                <div class="photo-nav">
+                    <button class="nav-btn" onclick="changePhoto(-1)">← Previous</button>
+                    <button class="nav-btn" onclick="changePhoto(1)">Next →</button>
+                </div>
+                <p class="photo-counter" id="photoCounter">1 / 20</p>
+            </div>
+
+            <div class="footer">
+                Made with love, just for you 💕
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ⚠️ CHANGE THIS PASSWORD TO YOUR OWN
+        const correctPassword = "november";
+        
+        let currentPhoto = 0;
+        const photos = document.querySelectorAll('.photo-container img');
+
+        function checkPassword() {
+            const input = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('errorMsg');
+            
+            if (input.toLowerCase() === correctPassword) {
+                document.getElementById('passwordScreen').classList.add('hidden');
+                document.getElementById('letterContent').style.display = 'block';
+            } else {
+                errorMsg.style.display = 'block';
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').style.borderColor = '#ff1493';
+                
+                setTimeout(() => {
+                    errorMsg.style.display = 'none';
+                    document.getElementById('passwordInput').style.borderColor = '#ffe0f0';
+                }, 2000);
+            }
+        }
+
+        // Allow Enter key to submit password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        function changePhoto(direction) {
+            photos[currentPhoto].classList.remove('active');
+            currentPhoto += direction;
+            
+            if (currentPhoto < 0) currentPhoto = photos.length - 1;
+            if (currentPhoto >= photos.length) currentPhoto = 0;
+            
+            photos[currentPhoto].classList.add('active');
+            updateCounter();
+        }
+
+        function updateCounter() {
+            document.getElementById('photoCounter').textContent = `${currentPhoto + 1} / ${photos.length}`;
+        }
+
+         //Optional: Auto-advance photos every 5 seconds
+        //setInterval(() => changePhoto(1), 5000);
+    </script>
+</body>
+</html>
